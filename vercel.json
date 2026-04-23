@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "framework": null,
+  "functions": {
+    "api/messages.js": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  }
+}

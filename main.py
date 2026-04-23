@@ -5,6 +5,7 @@ from pathlib import Path
 import anthropic as anthropic_sdk
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -13,6 +14,14 @@ from agri_analysis import enrich_messages
 load_dotenv()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://agriscan-tn.vercel.app", "http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 BASE_DIR = Path(__file__).parent
 
 # ---- Fichiers statiques ----

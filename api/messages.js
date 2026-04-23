@@ -1,34 +1,24 @@
-const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+const RAILWAY_URL =
+  "https://web-production-1403a.up.railway.app/api/messages";
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: { message: "Method Not Allowed" } });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({
-      error: { message: "ANTHROPIC_API_KEY non configurée sur le serveur." },
-    });
-  }
-
   try {
-    const upstream = await fetch(ANTHROPIC_API_URL, {
+    const upstream = await fetch(RAILWAY_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),
     });
 
     const data = await upstream.json();
     res.status(upstream.status).json(data);
   } catch (err) {
-    console.error("Erreur proxy Anthropic:", err.message);
+    console.error("Erreur proxy Railway:", err.message);
     res.status(502).json({
-      error: { message: "Impossible de joindre l'API Anthropic." },
+      error: { message: "Impossible de joindre le backend Railway." },
     });
   }
 };

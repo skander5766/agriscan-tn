@@ -9,8 +9,13 @@ const CONFIG = {
 
   maxTokens: 2048,
 
-  // Proxy local — la clé API reste côté serveur (server.js)
-  apiUrl: "/api/messages",
+  // Localhost → proxy local ; Vercel/ailleurs → backend Railway
+  apiUrl:
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1")
+      ? "/api/messages"
+      : "https://web-production-1403a.up.railway.app/api/messages",
 
   systemPrompt: `Tu es AgriScan TN, un expert agronome de haut niveau spécialisé dans l'agriculture tunisienne. Tu combines expertise scientifique et connaissance terrain du contexte agricole tunisien.
 

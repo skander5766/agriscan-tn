@@ -5,4 +5,4 @@ nixPkgs = ["python311", "python311Packages.pip"]
 cmds = ["pip install -r requirements.txt --break-system-packages"]
 
 [start]
-cmd = "bash start.sh"
+cmd = "python3.11 -m uvicorn main:app --host 0.0.0.0 --port $PORT & python3.11 telegram_bot.py"
